@@ -1,0 +1,22 @@
+$ docker pull tensorflow/serving
+
+Pulls a tensorflow/serving image from docker hub.
+
+$ docker run -d --name serving_base_container tensorflow/serving
+
+Runs a tensorflow/serving container in the background(-d) named serving_base_container(or name of choice)
+
+$ docker cp /home/carl/Dropbox/dev/bird_classifier/bird_classifier serving_base_container:/models/bird_classifier
+
+Copies the directory containing the bird_classifier model into the container directory.
+
+$ docker commit --change "ENV MODEL_NAME bird_classifier" serving_base_container bird_classifier
+
+Changes the currently running serving_base_container container by setting the MODEL_NAME environment variable(which is used by tensorflow serving) equal to "bird_classifier" and renaming the new container "bird_classifier".
+
+$ docker kill serving_base_container
+
+Kill the currently running serving_base_container.
+
+$ docker run -it -p 8500:8500 -p 8501:8501 --name bird_classifier bird_classifier
+
